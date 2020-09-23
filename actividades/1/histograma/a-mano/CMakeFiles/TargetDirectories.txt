@@ -1,3 +1,0 @@
-/home/manuel/Syncthing/Files/uns/2020/#2/procesamiento de imágenes/actividades/1/histograma/a-mano/CMakeFiles/rebuild_cache.dir
-/home/manuel/Syncthing/Files/uns/2020/#2/procesamiento de imágenes/actividades/1/histograma/a-mano/CMakeFiles/edit_cache.dir
-/home/manuel/Syncthing/Files/uns/2020/#2/procesamiento de imágenes/actividades/1/histograma/a-mano/CMakeFiles/histograma.dir

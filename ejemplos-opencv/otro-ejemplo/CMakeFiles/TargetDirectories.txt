@@ -1,3 +1,0 @@
-/home/manuel/Syncthing/Files/uns/2020/#2/procesamiento de imágenes/otro-ejemplo/CMakeFiles/rebuild_cache.dir
-/home/manuel/Syncthing/Files/uns/2020/#2/procesamiento de imágenes/otro-ejemplo/CMakeFiles/edit_cache.dir
-/home/manuel/Syncthing/Files/uns/2020/#2/procesamiento de imágenes/otro-ejemplo/CMakeFiles/draw.dir
