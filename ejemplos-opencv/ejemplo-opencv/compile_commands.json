@@ -1,0 +1,28 @@
+[
+ {
+  "directory": "/home/manuel/Syncthing/files/uns/2020/#2/procesamiento de im\u00e1genes/ejemplo-opencv",
+  "arguments": [
+   "/usr/bin/c++",
+   "-isystem",
+   "/usr/include/opencv4",
+   "-o",
+   "CMakeFiles/DisplayImage.dir/DisplayImage.cpp.o",
+   "-c",
+   "/home/manuel/Syncthing/files/uns/2020/#2/procesamiento de im\u00c3\u00a1genes/ejemplo-opencv/DisplayImage.cpp"
+  ],
+  "file": "/home/manuel/Syncthing/files/uns/2020/#2/procesamiento de im\u00e1genes/ejemplo-opencv/DisplayImage.cpp"
+ },
+ {
+  "directory": "/home/manuel/Syncthing/files/uns/2020/#2/procesamiento de im\u00e1genes/ejemplo-opencv",
+  "arguments": [
+   "/usr/bin/c++",
+   "-isystem",
+   "/usr/include/opencv4",
+   "-o",
+   "CMakeFiles/DisplayImage.dir/header.cpp.o",
+   "-c",
+   "/home/manuel/Syncthing/files/uns/2020/#2/procesamiento de im\u00c3\u00a1genes/ejemplo-opencv/header.cpp"
+  ],
+  "file": "/home/manuel/Syncthing/files/uns/2020/#2/procesamiento de im\u00e1genes/ejemplo-opencv/header.cpp"
+ }
+]
