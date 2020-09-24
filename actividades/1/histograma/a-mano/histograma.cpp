@@ -4,8 +4,9 @@
 #include <opencv2/highgui.hpp>
 #include <iostream>
 #define MAX_COLOR 256
-#define ANCHO_BARRA 2
-#define FILAS_IMAGEN 350
+#define LARGO_FOTO 256*2
+#define ALTURA_FOTO 256
+#define COLOR_HISTOGRAMA 255
 
 int main(int argc, char ** argv) {
 
@@ -47,15 +48,29 @@ int main(int argc, char ** argv) {
     int maximo = *std::max_element(histograma, histograma+MAX_COLOR);
 
     // volcar la información del arreglo histograma a una foto
-    cv::Mat imagen_histograma = cv::Mat::zeros(FILAS_IMAGEN, MAX_COLOR*ANCHO_BARRA,  CV_8U);
-    for (i = 0; i < MAX_COLOR; i++)
-        cv::rectangle(imagen_histograma,
-            cv::Point(i*ANCHO_BARRA,FILAS_IMAGEN),
-            cv::Point(i*ANCHO_BARRA+ANCHO_BARRA, FILAS_IMAGEN-(histograma[i]*FILAS_IMAGEN/maximo)),
-            cv::Scalar(255),
-            cv::FILLED,
-            cv::LINE_8
+    cv::Mat imagen_histograma = cv::Mat::zeros(ALTURA_FOTO, LARGO_FOTO,  CV_8U);
+    cv::Point anterior, siguiente;
+    anterior = cv::Point(0,ALTURA_FOTO-1);
+    for (i = 0; i < MAX_COLOR; i++) {
+        // cv::rectangle(imagen_histograma,
+        //     cv::Point(i*ANCHO_BARRA,ALTURA_FOTO),
+        //     cv::Point(i*ANCHO_BARRA+ANCHO_BARRA, ALTURA_FOTO-(histograma[i]*ALTURA_FOTO/maximo)),
+        //     cv::Scalar(COLOR_HISTOGRAMA),
+        //     1,
+        //     cv::LINE_8
+        // );
+        siguiente = cv::Point(i*LARGO_FOTO/MAX_COLOR, ALTURA_FOTO-1-(histograma[i]*ALTURA_FOTO/maximo));
+        cv::line(
+            imagen_histograma,
+            anterior,
+            siguiente,
+            cv::Scalar(COLOR_HISTOGRAMA),
+            1,
+            cv::LINE_8,
+            0
         );
+        anterior = siguiente;
+    }
 
     // mostrar foto y esperar cualquier input para cerrarla
     imshow(ventana_histograma, imagen_histograma);
