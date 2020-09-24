@@ -47,14 +47,15 @@ int main(int argc, char ** argv) {
     int maximo = *std::max_element(histograma, histograma+MAX_COLOR);
 
     // volcar la información del arreglo histograma a una foto
-    cv::Mat imagen_histograma = cv::Mat::zeros(FILAS_IMAGEN, MAX_COLOR*2,  CV_8U);
+    cv::Mat imagen_histograma = cv::Mat::zeros(FILAS_IMAGEN, MAX_COLOR*ANCHO_BARRA,  CV_8U);
     for (i = 0; i < MAX_COLOR; i++)
         cv::rectangle(imagen_histograma,
             cv::Point(i*ANCHO_BARRA,FILAS_IMAGEN),
             cv::Point(i*ANCHO_BARRA+ANCHO_BARRA, FILAS_IMAGEN-(histograma[i]*FILAS_IMAGEN/maximo)),
             cv::Scalar(255),
             cv::FILLED,
-            cv::LINE_4);
+            cv::LINE_8
+        );
 
     // mostrar foto y esperar cualquier input para cerrarla
     imshow(ventana_histograma, imagen_histograma);
