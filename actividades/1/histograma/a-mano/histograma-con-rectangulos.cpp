@@ -7,6 +7,7 @@
 #define LARGO_FOTO 256*2
 #define ALTURA_FOTO 256
 #define COLOR_HISTOGRAMA 255
+#define ANCHO_BARRA 3
 
 int main(int argc, char ** argv) {
 
@@ -49,20 +50,14 @@ int main(int argc, char ** argv) {
 
     // volcar la información del arreglo histograma a una foto
     cv::Mat imagen_histograma = cv::Mat::zeros(ALTURA_FOTO, LARGO_FOTO,  CV_8U);
-    cv::Point anterior, siguiente;
-    anterior = cv::Point(0,ALTURA_FOTO-1);
     for (i = 0; i < MAX_COLOR; i++) {
-        siguiente = cv::Point(i*LARGO_FOTO/MAX_COLOR, ALTURA_FOTO-1-(histograma[i]*ALTURA_FOTO/maximo));
-        cv::line(
-            imagen_histograma,
-            anterior,
-            siguiente,
+        cv::rectangle(imagen_histograma,
+            cv::Point(i*ANCHO_BARRA,ALTURA_FOTO),
+            cv::Point(i*ANCHO_BARRA+ANCHO_BARRA, ALTURA_FOTO-(histograma[i]*ALTURA_FOTO/maximo)),
             cv::Scalar(COLOR_HISTOGRAMA),
             1,
-            cv::LINE_8,
-            0
+            cv::LINE_8
         );
-        anterior = siguiente;
     }
 
     // mostrar foto y esperar cualquier input para cerrarla
