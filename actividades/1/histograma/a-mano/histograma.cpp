@@ -44,7 +44,6 @@ int main(int argc, char ** argv) {
         for (j = 0; j < columnas; j++)
             histograma[int(imagen.at<uchar>(i,j))]++;
 
-    char ventana_histograma[] = "Histograma";
     int maximo = *std::max_element(histograma, histograma+MAX_COLOR);
 
     // volcar la información del arreglo histograma a una foto
@@ -66,7 +65,7 @@ int main(int argc, char ** argv) {
     }
 
     // mostrar foto y esperar cualquier input para cerrarla
-    imshow(ventana_histograma, imagen_histograma);
+    imshow("Histograma", imagen_histograma);
     cv::waitKey();
 
     return EXIT_SUCCESS;

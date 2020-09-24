@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project(hsi)
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+add_executable(hsi hsi.cpp)
+target_link_libraries(hsi ${OpenCV_LIBS})

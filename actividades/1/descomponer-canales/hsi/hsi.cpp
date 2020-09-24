@@ -39,12 +39,14 @@ int main(int argc, char ** argv) {
         return EXIT_FAILURE;
     }
 
+    cv::cvtColor(imagen, imagen, cv::COLOR_BGR2HSV, 3);
+
     cv::Mat imagenes_canales[imagen.channels()];
     std::string ventanas_canales[imagen.channels()];
 
-    ventanas_canales[0] = "Canal azul";
-    ventanas_canales[1] = "Canal verde";
-    ventanas_canales[2] = "Canal rojo";
+    ventanas_canales[0] = "Canal H";
+    ventanas_canales[1] = "Canal S";
+    ventanas_canales[2] = "Canal V";
 
     for (int i = 0; i < imagen.channels(); i++) {
         imagenes_canales[i] = cv::Mat::zeros(imagen.rows, imagen.cols, CV_8U);
@@ -59,6 +61,8 @@ int main(int argc, char ** argv) {
     for (int i = 0; i < imagen.channels(); i++) {
         sumar_canal(imagenes_canales[i], imagen_reconstruida, i);
     }
+
+    cv::cvtColor(imagen_reconstruida, imagen_reconstruida, cv::COLOR_HSV2BGR, 3);
 
     namedWindow("Imagen reconstruida", cv::WINDOW_NORMAL);
     imshow("Imagen reconstruida", imagen_reconstruida);
