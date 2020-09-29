@@ -1,14 +1,14 @@
 para instalar opencv:
-	1. instalar dependencias de opencv (https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html) (en debian: instalar gcc, cmake, pkg-config, build-essentials)
-	2. instalar la librería opencv (en debian: opencv-data, libopencv-dev) ¿libopencv-core3.2, libopencv-imgproc3.2?
+	1. instalar dependencias de opencv (https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html) (en debian: instalar build-essential, cmake)
+	2. instalar la librería opencv (en debian: libopencv-dev)
 
 para compilar cada ejercicio, en cada directorio donde se encuentre un .cpp y un CMakeLists.txt, ejecutar:
-	- cmake . (generar el Makefile)
-	- make (compilar el código fuente)
+	- `cmake .` (generar el Makefile)
+	- `make` (compilar el código fuente)
 	- el binario generado (se llama igual que el .cpp, pero sin la extensión)
 
 en caso de que lo anterior falle, ejecutar (en bash):
-	- g++ [archivo.cpp] `pkg-config --cflags --libs opencv3.2` (en debian) (chequear esto)
+	- g++ [archivo.cpp] `pkg-config --cflags --libs opencvX` (en debian). reemplazar X por la versión instalada de opencv (4 o 3.2)
 	- el binario generado (usualmente a.out)
 
 cada ejercicio pide como argumento la ruta a una foto. para salir de cada uno, apretar cualquier tecla.
