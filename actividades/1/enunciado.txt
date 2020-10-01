@@ -1,5 +1,6 @@
-El objetivo de esta actividad es familiarizarse con el lenguaje y las librerías.
-Tiene 2 subtareas:
+Actividad 1: Entrada en calor
+
+El objetivo de esta actividad es familiarizarse con el lenguaje y las librerías. Tiene 2 subtareas:
 
 1. Implementar y mostrar el histograma de una imagen en escala de grises. El histograma debe hacerse de dos formas distintas:
     a. A mano, mirando la intensidad de cada píxel.
