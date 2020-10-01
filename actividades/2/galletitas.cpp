@@ -1,22 +1,28 @@
 #include <opencv2/core.hpp>
+#include <unistd.h>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 #include <iostream>
+#include <ostream>
 #include <string>
 #define FONDO 100
 #define BLANCO 255
 #define ALTO_GALLETITA 600
 #define LARGO_GALLETITA 600
 #define CANT_GALLETITAS 5
-#define UMBRAL_COLOR 15
+#define UMBRAL_COLOR 5
 #define UMBRAL_GALLETITA 0.5
-#define ESPACIO_HORIZONTAL 250
-#define ESPACIO_VERTICAL 250
+#define ESPACIO_HORIZONTAL 800
+#define ESPACIO_VERTICAL 800
 
 struct galletita {
 	std::string nombre;
 	uchar colorH;
 };
+
+// TODO:
+// 	- cuenta de las galletitas al final
+//	- hacerlo independiente de la grilla de 3x3: recorrer toda la imagen y comparar con lo que ya guardé para saltearme esos píxeles
 
 void inicializar_galletitas(struct galletita galletitas[CANT_GALLETITAS])
 {
@@ -34,20 +40,30 @@ bool es_galletita(cv::Mat imagen, cv::Mat mapa, int fila, int columna)
 	int i = fila, j, pixeles_contados = 0, pixeles_correctos = 0;
 	bool es_galletita = false;
 	uchar * p, * pmapa;
-	while (!es_galletita && i < fila+ALTO_GALLETITA) {
-		j = columna-(LARGO_GALLETITA)/2;
+	std::cout << "es_galletita. fila: " << fila << ". columna: " << columna << std::endl;
+	std::cout << "el ancho sería: (" << columna-(LARGO_GALLETITA/2) << "," << columna+(LARGO_GALLETITA/2) << ")" << std::endl;
+	std::cout << "el largo sería: (" << fila << "," << fila+ALTO_GALLETITA << ")" << std::endl;
+	// TODO: guardar el color del pixel acá para comparar luego con el struct galletita
+	while (i < fila+ALTO_GALLETITA) {
+		j = columna-(LARGO_GALLETITA/2);
 		p = imagen.ptr<uchar>(i);
 		pmapa = mapa.ptr<uchar>(i);
-		while (!es_galletita && j < columna+(LARGO_GALLETITA/2)) {
+		// std::cout << "correctos: " << pixeles_correctos << std::endl;
+		// std::cout << "contados: " << pixeles_contados << std::endl;
+		// std::cout << "proporción: " << 1.0*pixeles_correctos/pixeles_contados << std::endl << std::endl;
+		while (j < columna+(LARGO_GALLETITA/2)) {
 			if (!en_umbral(p[j], FONDO)) {
+				pmapa[j] = 255;
 				pixeles_correctos++;
-				pmapa[j] = BLANCO;
 			}
 			pixeles_contados++;
 			j++;
-			es_galletita = (pixeles_correctos/pixeles_contados) > UMBRAL_GALLETITA;
+			// std::cout << "es galletita: " << es_galletita << std::endl;
 		}
+		i++;
 	}
+	es_galletita = (1.0*pixeles_correctos/pixeles_contados) > UMBRAL_GALLETITA;
+	std::cout << "proporción: " << (1.0*pixeles_correctos/pixeles_contados) << std::endl;
 	return es_galletita;
 }
 
@@ -76,6 +92,7 @@ int main(int argc, char ** argv)
 	}
 
 	int contador[CANT_GALLETITAS];
+	int galletitas_encontradas = 0;
 
 	for (int i = 0; i < CANT_GALLETITAS; ++i) {
 		contador[i] = 0;
@@ -96,33 +113,49 @@ int main(int argc, char ** argv)
 	int i = 0, j;
 	uchar * p;
 
+	std::cout << mapa.rows << " " << mapa.cols << std::endl;
+
 	while (!encontre_primera && i < cH.rows) {
 		p = cH.ptr<uchar>(i);
 		j = 0;
 		while (!encontre_primera && j < cH.cols) {
-			std::cout << i << "," << j << std::endl;
 			encontre_primera = !en_umbral(p[j], FONDO);
+			if (encontre_primera) {
+				encontre_primera = es_galletita(cH, mapa, i, j);
+				if (encontre_primera) {
+					std::cout << "encontré en 0,0" << std::endl << std::endl;
+					galletitas_encontradas++;
+				}
+			}
 			j++;
 		}
 		i++;
 	}
 
-	// por ahora asumo que son 9 en una grilla de 3x3
-	std::cout << "encontre en: " << i << "," << j << std::endl;
-
-	int fila = 0, columna;
-	while (fila < 3) {
-		columna = 3;
-		while (columna < 3) {
-			es_galletita(cH, mapa, i+fila*ESPACIO_VERTICAL, j+columna*ESPACIO_HORIZONTAL);
-			columna++;
+	bool encontre;
+	if (encontre_primera) {
+		int fila = 0, columna = 1;
+		while (fila < 3) {
+			while (columna < 3) {
+				encontre = es_galletita(cH, mapa, i+fila*ESPACIO_VERTICAL, j+columna*ESPACIO_HORIZONTAL);
+				if (encontre) {
+					std::cout << "encontré en " << fila << "," << columna << std::endl << std::endl;
+					galletitas_encontradas++;
+				}
+				columna++;
+			}
+			fila++;
+			columna = 0;
 		}
-		fila++;
 	}
 
+	std::cout << "Enhorabuena: has encontrado " << galletitas_encontradas << " galletitas" << std::endl;
 
-	namedWindow("Mapa", cv::WINDOW_NORMAL);
-	imshow("Mapa", cH);
+	namedWindow("mapa", cv::WINDOW_NORMAL);
+	imshow("mapa", mapa);
+
+	namedWindow("cH", cv::WINDOW_NORMAL);
+	imshow("cH", cH);
 
 	cv::waitKey();
 
