@@ -1,0 +1,12 @@
+Actividad 1: Entrada en calor
+
+El objetivo de esta actividad es familiarizarse con el lenguaje y las librerías. Tiene 2 subtareas:
+
+1. Implementar y mostrar el histograma de una imagen en escala de grises. El histograma debe hacerse de dos formas distintas:
+    a. A mano, mirando la intensidad de cada píxel.
+    b. Usando las funciones que provea la librerías.
+2. Inspeccionar qué representaciones del color soporta la librería.
+    a. Elegir 2 o 3 (por ejemplo, RGB, HSL y CMYK) y descomponer una imagen en los diferentes canales. Mostrar el resultado de la descomposición.
+    b. Recomponer la imagen:
+        i. Usando los canales correcto
+        ii. Usando los canales incorrectos o la representación incorrecta
