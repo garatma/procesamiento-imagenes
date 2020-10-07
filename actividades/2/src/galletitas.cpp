@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include <sys/resource.h>
 
 #define   BLANCO               255
 #define   GRIS                 50
@@ -185,16 +186,37 @@ int main(int argc, char ** argv)
 {
 	// obtener imagen
 
+	struct rlimit rlp;
+	int ret = getrlimit(RLIMIT_STACK, &rlp);
+	// std::cout << "infinity: " << RLIM_INFINITY << std::endl;
+	std::cout << "ret: " << ret << std::endl;
+	if (!ret) {
+		std::cout << "cur stack: " << rlp.rlim_cur << std::endl;
+		std::cout << "max stack: " << rlp.rlim_max << std::endl;
+	}
+	rlp.rlim_cur = RLIM_INFINITY;
+	rlp.rlim_cur = RLIM_INFINITY;
+	ret = setrlimit(RLIMIT_STACK, &rlp);
+
+	std::cout << std::endl;
+	// std::cout << "ret: " << ret << std::endl;
+	if (!ret) {
+		std::cout << "cur stack: " << rlp.rlim_cur << std::endl;
+		std::cout << "max stack: " << rlp.rlim_max << std::endl;
+	}
+
 	if (argc == 3) {
 		opcion_o = !strcmp("-o", argv[1]);
 		imagen = imread(argv[2], cv::IMREAD_COLOR);
 	}
 	else if (argc == 2) {
-	// if (argc == 2) {
 		std::cout << std::endl << "Ejecute con la opción -o para mostrar el procesamiento de píxeles" << std::endl;
 		imagen = imread(argv[1], cv::IMREAD_COLOR);
 	}
-	else return EXIT_FAILURE;
+	else {
+		std::cout << "Debe especificar la ruta a una imagen." << std::endl;
+		return EXIT_FAILURE;
+	}
 
 	if(imagen.empty()) {
 		std::cout << "No se pudo encontrar la imagen." << std::endl;
