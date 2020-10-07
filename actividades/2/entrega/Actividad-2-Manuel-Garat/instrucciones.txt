@@ -13,4 +13,4 @@ en caso de que cmake/make falle, ejecutar, en bash, estos pasos alternativos:
 
 el ejercicio pide como argumento la ruta a una foto. para salir de cada uno, apretar cualquier tecla. ejecutar con la opción -o antes de la ruta a la imagen para mostrar el procesamiento interno de los píxeles de la imagen.
 
-se incluyen dos conjuntos de fotos con los cuales se probó el programa, uno de alta resolución y uno de baja.
+se incluyen dos conjuntos de fotos con los cuales se probó el programa, uno de alta y uno de baja resolución.

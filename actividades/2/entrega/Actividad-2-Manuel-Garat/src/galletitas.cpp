@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include <sys/resource.h>
 
 #define   BLANCO               255
 #define   GRIS                 50
@@ -30,7 +31,9 @@ struct galletita {
 };
 
 cv::Mat imagen, mapa, canal_h;
-std::string ventana_mapa = "Procesamiento pixeles", ventana_imagen = "Imagen", ventana_resultados = "Resultados";
+
+std::string ventana_mapa = "Procesamiento pixeles",
+	ventana_resultados = "Resultados";
 
 int fondo, umbral_galletita, divisor_umbral = 72, umbral_color = 25, umbral_fondo = 15;
 bool opcion_o = false;
@@ -62,12 +65,6 @@ int es_galletita(int fila, int columna, int pos_pixel_anterior, double * suma)
 		contador++;
 		pmapa[columna] = BLANCO;
 		(*suma) += int(p[columna]);
-
-		// if (pos_pixel_anterior != ARRIBA && 0 < fila) {
-		// 	pmapa = (*mapa).ptr<uchar>(fila-1);
-		// 	if (pmapa[columna] == 0)
-		// 		contador += es_galletita(fila-1, columna, ABAJO, suma);
-		// }
 
 		if (contador > umbral_galletita) return contador;
 
@@ -145,56 +142,63 @@ void encontrar_galletitas(int, void*)
 
 	std::string resultados = "Resultados: ";
 	cv::Mat imagen_resultados = cv::Mat::zeros(400, 400, CV_8U);
-
-	int i = 0;
-	do {
-		cv::putText(imagen_resultados,
-			resultados,
-			cv::Point(0, 25+50*i),
-			cv::FONT_HERSHEY_DUPLEX,
-			1, BLANCO, 1, cv::LINE_8, false
-		);
-		resultados = "    " + galletitas[i].nombre + ": " + std::to_string(galletitas[i].cantidad);
-		i++;
-	} while (i <= CANT_GALLETITAS);
-
-	resultados = "    Total: " + std::to_string(galletitas_encontradas);
-	cv::putText(imagen_resultados,
-			resultados,
-			cv::Point(0, 25+50*i),
-			cv::FONT_HERSHEY_DUPLEX,
-			1, BLANCO, 1, cv::LINE_8, false
+	cv::putText(imagen_resultados, resultados, cv::Point(0, 25),
+		cv::FONT_HERSHEY_DUPLEX, 1, BLANCO, 1, cv::LINE_8, false
 	);
 
-	namedWindow(ventana_imagen, cv::WINDOW_NORMAL);
-	imshow(ventana_imagen, imagen);
-	cv::moveWindow(ventana_imagen, 400, 400);
+	int i;
+	for (i = 0; i < CANT_GALLETITAS; ++i) {
+		resultados = "    ";
+		resultados = resultados + galletitas[i].nombre;
+		resultados = resultados + ": ";
+		resultados = resultados + std::to_string(galletitas[i].cantidad);
+		cv::putText(imagen_resultados, resultados, cv::Point(0, 75+50*i),
+			cv::FONT_HERSHEY_DUPLEX, 1, BLANCO, 1, cv::LINE_8, false
+		);
+	}
 
-	namedWindow(ventana_resultados, cv::WINDOW_NORMAL);
+
+	resultados = "    Total: ";
+	resultados = resultados + std::to_string(galletitas_encontradas);
+	cv::putText(imagen_resultados, resultados, cv::Point(0, 75+50*i),
+			cv::FONT_HERSHEY_DUPLEX, 1, BLANCO, 1, cv::LINE_8, false
+	);
+
+	namedWindow(ventana_resultados, cv::WINDOW_AUTOSIZE);
 	imshow(ventana_resultados, imagen_resultados);
-	cv::moveWindow(ventana_resultados, 800, 400);
+	cv::moveWindow(ventana_resultados, 200, 0);
 
 	if (opcion_o) {
-		namedWindow(ventana_mapa, cv::WINDOW_NORMAL);
+		namedWindow(ventana_mapa, cv::WINDOW_FREERATIO);
+		cv::resizeWindow(ventana_mapa, 500, 500);
 		imshow(ventana_mapa, mapa);
-		cv::moveWindow(ventana_mapa, 1200, 400);
+		cv::moveWindow(ventana_mapa, 610, 0);
 	}
 }
 
 int main(int argc, char ** argv)
 {
-	// obtener imagen
+	// incrementar el tamaño de la stack para soportar fotos de mayor resolución
+	struct rlimit rlp;
+	rlp.rlim_cur = RLIM_INFINITY;
+	rlp.rlim_max = RLIM_INFINITY;
+	int ret = setrlimit(RLIMIT_STACK, &rlp);
 
+	// obtener imagen
 	if (argc == 3) {
 		opcion_o = !strcmp("-o", argv[1]);
+		if (!opcion_o)
+			std::cout << std::endl << "Ejecute con la opción -o para mostrar el procesamiento de píxeles" << std::endl;
 		imagen = imread(argv[2], cv::IMREAD_COLOR);
 	}
 	else if (argc == 2) {
-	// if (argc == 2) {
 		std::cout << std::endl << "Ejecute con la opción -o para mostrar el procesamiento de píxeles" << std::endl;
 		imagen = imread(argv[1], cv::IMREAD_COLOR);
 	}
-	else return EXIT_FAILURE;
+	else {
+		std::cout << "Debe especificar la ruta a una imagen." << std::endl;
+		return EXIT_FAILURE;
+	}
 
 	if(imagen.empty()) {
 		std::cout << "No se pudo encontrar la imagen." << std::endl;
@@ -224,18 +228,15 @@ int main(int argc, char ** argv)
 	fondo = suma/imagen.cols;
 
 	cv::cvtColor(imagen, imagen, cv::COLOR_HSV2BGR);
-	if (argc > 2)
-		encontrar_galletitas(0,0);
-	else
-		encontrar_galletitas(0,0);
+	encontrar_galletitas(0,0);
 
 	const char * barra_galletita = "Umbral píxeles galletita",
 		* barra_color = "Umbral color galletita",
 		* barra_fondo = "Umbral color fondo";
 
-	cv::createTrackbar(barra_galletita, ventana_imagen, &divisor_umbral, MAX_DIVISOR, encontrar_galletitas);
-	cv::createTrackbar(barra_color, ventana_imagen, &umbral_color, MAX_UMBRAL_COLOR, encontrar_galletitas);
-	cv::createTrackbar(barra_fondo, ventana_imagen, &umbral_fondo, MAX_UMBRAL_FONDO, encontrar_galletitas);
+	cv::createTrackbar(barra_galletita, ventana_resultados, &divisor_umbral, MAX_DIVISOR, encontrar_galletitas);
+	cv::createTrackbar(barra_color, ventana_resultados, &umbral_color, MAX_UMBRAL_COLOR, encontrar_galletitas);
+	cv::createTrackbar(barra_fondo, ventana_resultados, &umbral_fondo, MAX_UMBRAL_FONDO, encontrar_galletitas);
 
 	cv::waitKey();
 
