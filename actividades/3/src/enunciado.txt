@@ -1,0 +1,16 @@
+Actividad 3: Cartoon
+
+La idea es implementar el efecto de transformar a una imagen en un cartoon presentado en este trabajo. La implementación va a ser una simplificación, simplemente porque aún no vimos todos los temas.
+
+1.Aplicar filtro de la mediana.
+	Utilizar un filtro de la mediana pequeño (siempre en relación a la imagen).
+
+2. Detectar bordes a la imagen en escala de grises.
+		El único filtro que vimos hasta ahora que sirve para detectar bordes es el Laplaciano (ya vamos a ver mejores).
+	El objetivo es obtener bordes negros, ¿qué operaciones habría que hacer para obtenerlos?
+
+3. Reducir la cantidad de colores en (1).
+	Si bien encontrar una paleta óptima para reducir la cantidad de colores de una imagen no es una tarea trivial , en el trabajo original presentan una forma simple de hacerlo. También pueden usar alguna otra que se les ocurra.
+
+4. Agregar a (3) los bordes obtenidos en (2)
+	¿Qué operación hay que realizar?
