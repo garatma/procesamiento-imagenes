@@ -1,0 +1,14 @@
+para instalar opencv:
+	1. instalar dependencias de opencv (https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html) (debian: build-essential, cmake)
+	2. instalar la librería opencv (debian: libopencv-dev)
+
+para compilar el ejercicio, ejecutar en "src":
+	- cmake . (generar el Makefile)
+	- make (compilar el código fuente)
+	- el binario generado "cartoon"
+
+en caso de que cmake/make falle, ejecutar, en bash, estos pasos alternativos:
+	- g++ galletitas.cpp `pkg-config --cflags --libs opencvX` (reemplazar X por la versión instalada de opencv. ejecutar "pkg-config --list-all" para encontrarla)
+	- el binario generado (usualmente a.out)
+
+el programa pide como argumento la ruta a una foto. para salir, apretar cualquier tecla. ejecutar con la opción "-f" o "--filtros" antes de la ruta a la imagen para mostrar cada uno de los filtros aplicados.

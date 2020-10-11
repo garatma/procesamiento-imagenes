@@ -16,7 +16,6 @@ int main(int argc, char ** argv)
 		imagen = imread(argv[2], cv::IMREAD_COLOR);
 	}
 	else if (argc == 2) {
-		std::cout << std::endl << "Ejecute el programa con la opción '-f | --filtros' para mostrar los filtros que se generan." << std::endl;
 		imagen = imread(argv[1], cv::IMREAD_COLOR);
 	}
 	else {
@@ -68,7 +67,7 @@ int main(int argc, char ** argv)
 	cv::resizeWindow("Imagen entrada", 500, 500);
 	imshow("Imagen entrada", imagen);
 
-	// si lo requieren, mostrar los filtros.
+	// si lo requieren, mostrar los filtros, sino un mensaje.
 	if (opcion_filtros) {
 		cv::namedWindow("Filtrada", cv::WINDOW_FREERATIO);
 		cv::resizeWindow("Filtrada", 500, 500);
@@ -82,6 +81,7 @@ int main(int argc, char ** argv)
 		cv::resizeWindow("Bilateral", 500, 500);
 		imshow("Bilateral", bilateral);
 	}
+	else std::cout << std::endl << "Ejecute el programa con la opción '-f | --filtros' para mostrar los filtros que se generan." << std::endl;
 
 	// mostrar resultado.
 	cv::namedWindow("Resultado", cv::WINDOW_FREERATIO);
