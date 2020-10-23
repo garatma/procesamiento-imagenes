@@ -201,7 +201,7 @@ int main(int argc, char ** argv)
 	struct rlimit rlp;
 	rlp.rlim_cur = RLIM_INFINITY;
 	rlp.rlim_max = RLIM_INFINITY;
-	int ret = setrlimit(RLIMIT_STACK, &rlp);
+	setrlimit(RLIMIT_STACK, &rlp);
 
 	struct argumento_callback argumento_callback;
 
@@ -230,7 +230,7 @@ int main(int argc, char ** argv)
 	cv::cvtColor(argumento_callback.imagen, argumento_callback.imagen, cv::COLOR_BGR2HSV);
 
 	// dividir en canales
-	cv::Mat canales[argumento_callback.imagen.channels()];
+	cv::Mat canales[3];
 	cv::split(argumento_callback.imagen, canales);
 
 	// canal H
@@ -241,9 +241,7 @@ int main(int argc, char ** argv)
 	cv::cvtColor(argumento_callback.imagen, argumento_callback.imagen, cv::COLOR_HSV2BGR);
 
 	// variables necesarias
-	bool encontre = false;
-	uchar * p, * pmapa;
-	int pixeles_galletita, indice, galletitas_encontradas = 0;
+	uchar * p;
 
 	// establecer color del fondo a partir del promedio de tonalidad de los
 	// píxeles de la primera fila

@@ -4,4 +4,8 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 add_executable(hsl hsl.cpp)
 target_link_libraries(hsl ${OpenCV_LIBS})
-set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+target_compile_options(hsl PRIVATE -Wpedantic -Werror -Wall -Wextra)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+add_custom_target(run
+  COMMAND ./hsl "$(ARGS)"
+)

@@ -4,4 +4,8 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 add_executable(cartoon cartoon.cpp)
 target_link_libraries(cartoon ${OpenCV_LIBS})
-set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+target_compile_options(cartoon PRIVATE -Wpedantic -Werror -Wall -Wextra)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+add_custom_target(run
+  COMMAND ./cartoon "$(ARGS)"
+)
