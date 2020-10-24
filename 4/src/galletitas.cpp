@@ -18,7 +18,7 @@
 #define MAX_DIVISOR		   200
 #define MAX_UMBRAL_COLOR   50
 #define MAX_UMBRAL_FONDO   50
-#define MAX_ESTRUCTURAL    100
+#define MAX_ESTRUCTURAL    200
 
 struct galletita {
 	std::string nombre;
@@ -29,10 +29,8 @@ struct galletita {
 struct argumento_callback {
 	cv::Mat copia_canal_h;
 	cv::Mat imagen;
+	std::string ventana_resultados = "Resultados";
 };
-
-std::string ventana_mapa = "Procesamiento pixeles",
-	ventana_resultados = "Resultados";
 
 int fondo, umbral_galletita,
 	divisor_umbral = 72,
@@ -120,9 +118,11 @@ void encontrar_galletitas(int, void * argumento)
 	cv::Mat canal_h, imagen;
 	imagen = p_argumento->imagen;
 
+	canal_h = p_argumento->copia_canal_h.clone();
+
 	// erosionar y dilatar
-	cv::erode(p_argumento->copia_canal_h, canal_h, estructural);
-	cv::dilate(p_argumento->copia_canal_h, canal_h, estructural);
+	cv::erode(canal_h, canal_h, estructural);
+	cv::dilate(canal_h, canal_h, estructural);
 
 	// datos sobre las galletitas
 	struct galletita galletitas[CANT_GALLETITAS];
@@ -183,15 +183,20 @@ void encontrar_galletitas(int, void * argumento)
 			cv::FONT_HERSHEY_DUPLEX, 1, BLANCO, 1, cv::LINE_8, false
 	);
 
-	namedWindow(ventana_resultados, cv::WINDOW_AUTOSIZE);
-	cv::moveWindow(ventana_resultados, 200, 0);
-	imshow(ventana_resultados, imagen_resultados);
+	namedWindow(p_argumento->ventana_resultados, cv::WINDOW_AUTOSIZE);
+	cv::moveWindow(p_argumento->ventana_resultados, 1, 1);
+	imshow(p_argumento->ventana_resultados, imagen_resultados);
 
 	if (opcion_o) {
-		namedWindow(ventana_mapa, cv::WINDOW_FREERATIO);
-		cv::resizeWindow(ventana_mapa, 500, 500);
-		cv::moveWindow(ventana_mapa, 610, 0);
-		imshow(ventana_mapa, mapa);
+		namedWindow("Procesamiento pixeles", cv::WINDOW_FREERATIO);
+		cv::resizeWindow("Procesamiento pixeles", 450, 450);
+		cv::moveWindow("Procesamiento pixeles", 401, 0);
+		imshow("Procesamiento pixeles", mapa);
+
+		namedWindow("Canal H", cv::WINDOW_FREERATIO);
+		cv::resizeWindow("Canal H", 450, 450);
+		cv::moveWindow("Canal H", 851, 0);
+		imshow("Canal H", canal_h);
 	}
 }
 
@@ -258,28 +263,28 @@ int main(int argc, char ** argv)
 		* barra_estructural = "Tamaño elemento estructural";
 
 	cv::createTrackbar(barra_galletita,
-		ventana_resultados,
+		argumento_callback.ventana_resultados,
 		&divisor_umbral,
 		MAX_DIVISOR,
 		encontrar_galletitas,
 		&argumento_callback
 	);
 	cv::createTrackbar(barra_color,
-		ventana_resultados,
+		argumento_callback.ventana_resultados,
 		&umbral_color,
 		MAX_UMBRAL_COLOR,
 		encontrar_galletitas,
 		&argumento_callback
 	);
 	cv::createTrackbar(barra_fondo,
-		ventana_resultados,
+		argumento_callback.ventana_resultados,
 		&umbral_fondo,
 		MAX_UMBRAL_FONDO,
 		encontrar_galletitas,
 		&argumento_callback
 	);
 	cv::createTrackbar(barra_estructural,
-		ventana_resultados,
+		argumento_callback.ventana_resultados,
 		&size_estructural,
 		MAX_ESTRUCTURAL,
 		encontrar_galletitas,
