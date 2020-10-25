@@ -121,8 +121,8 @@ void encontrar_galletitas(int, void * argumento)
 	canal_h = p_argumento->copia_canal_h.clone();
 
 	// erosionar y dilatar
-	cv::erode(canal_h, canal_h, estructural);
 	cv::dilate(canal_h, canal_h, estructural);
+	cv::erode(canal_h, canal_h, estructural);
 
 	// datos sobre las galletitas
 	struct galletita galletitas[CANT_GALLETITAS];
@@ -190,12 +190,12 @@ void encontrar_galletitas(int, void * argumento)
 	if (opcion_o) {
 		namedWindow("Procesamiento pixeles", cv::WINDOW_FREERATIO);
 		cv::resizeWindow("Procesamiento pixeles", 450, 450);
-		cv::moveWindow("Procesamiento pixeles", 401, 0);
+		cv::moveWindow("Procesamiento pixeles", 451, 0);
 		imshow("Procesamiento pixeles", mapa);
 
 		namedWindow("Canal H", cv::WINDOW_FREERATIO);
 		cv::resizeWindow("Canal H", 450, 450);
-		cv::moveWindow("Canal H", 851, 0);
+		cv::moveWindow("Canal H", 931, 0);
 		imshow("Canal H", canal_h);
 	}
 }
