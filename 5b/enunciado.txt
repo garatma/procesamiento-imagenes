@@ -1,0 +1,10 @@
+Actividad 5(b): Transformaciones geométricas
+
+A partir del los archivos subidos por los compañeros y (sin hacer trampa) restaurar las imágenes. Para esto deben:
+    · seleccionar, tanto en la imagen original como en la transformada, 4 puntos que se correspondan entre sí.
+    · buscar en la librería cómo resolver el sistema de ecuaciones que queda para obtener la matriz de transformación.
+    · finalmente, comparen los resultados obtenidos con los reales.
+
+Subir a Moodle:
+    · Un documento comparando los resultados
+    · Código fuente de las dos actividades

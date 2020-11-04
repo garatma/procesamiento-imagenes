@@ -1,0 +1,16 @@
+Actividad 5(a): Transfomaciones geométricas
+
+    1. Buscar en la librería que estén usando como implementar las transformaciones geométricas. Revisar cómo aplicar una transformación lineal genérica.
+    2. Elegir 1 imagen random de Wikimedia Commons y aplicarle alguna de las siguientes transformaciones:
+        (0) perspectiva más una transformación (rotación, traslación o escalado simétrico).
+        (1) afín más dos transformaciones (rotación, traslación o escalado simétrico).
+        (2) cualquier combinación de 4 transformaciones (rotación, traslación, escalado simétrico, afín o perspectiva).
+        Elijan la 0, 1 o 2 en función del resultado módulo 3 de los dos primeros números del documento (sí, ya revisé que no les toque a todos la misma.).
+
+No hace falta que elijan imágenes de mucha resolución, 800x600 está bien. Tampoco necesitan quedarse con la primera imagen que les devuelve. Traten de elegir imágenes con detalles; por ejemplo, esta les va a complicar la parte (b) de la actividad.
+
+Subir a Moodle:
+    · la imagen elegida
+    · el resultado
+    · un documento con la información de las transformaciones realizadas.
+    · no suban el código fuente

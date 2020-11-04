@@ -1,0 +1,6 @@
+1. Perspectiva con los siguientes mapeos de puntos:
+	- (0,0)   → (1,3)
+ 	- (0,10)  → (0,10)
+	- (10,10) → (11,13)
+2. Rotación 90° en sentido horario.
+3. Traslación 50 píxeles a la derecha, 20 píxeles abajo.
