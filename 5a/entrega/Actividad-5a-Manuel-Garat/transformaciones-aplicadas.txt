@@ -1,4 +1,4 @@
-1. Perspectiva con los siguientes mapeos de puntos:
+1. Afín con los siguientes mapeos de puntos:
 	- (0,0)   → (1,3)
  	- (0,10)  → (0,10)
 	- (10,10) → (11,13)

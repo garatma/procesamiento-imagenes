@@ -20,19 +20,20 @@ int main(int argc, char ** argv)
 	}
 
 	// transformación afín
+	int ancho = imagen.cols*imagen.channels(), alto = imagen.rows;
 	cv::Point2f src[3], dst[3];
-	src[0] = cv::Point2f(0,0);   dst[0] = cv::Point2f(1,3);
-	src[1] = cv::Point2f(0,10);  dst[1] = cv::Point2f(0,10);
-	src[2] = cv::Point2f(10,10); dst[2] = cv::Point2f(11,13);
+	src[0] = cv::Point2f(0,0);   dst[0] = cv::Point2f(0,0);
+	src[1] = cv::Point2f(0,ancho);  dst[1] = cv::Point2f(0,ancho);
+	src[2] = cv::Point2f(alto,ancho); dst[2] = cv::Point2f(alto,ancho);
 	cv::Mat transformacion_afin = cv::getAffineTransform(src, dst);
 	cv::warpAffine(imagen, transformada, transformacion_afin, cv::Size(imagen.cols, imagen.rows));
 
 	// rotación de 90° horariamente
-	cv::rotate(transformada, transformada, 0);
+	// cv::rotate(transformada, transformada, 0);
 
 	// traslación 50 píxeles a la derecha, 20 abajo
 	cv::Mat arreglo_traslacion = (cv::Mat_<float>(2,3) << 1, 0, 50, 0, 1, 20);
-	cv::warpAffine(transformada, transformada, arreglo_traslacion, cv::Size(imagen.rows, imagen.cols));
+	// cv::warpAffine(transformada, transformada, arreglo_traslacion, cv::Size(imagen.rows, imagen.cols));
 
 	namedWindow("Imagen original", cv::WINDOW_FREERATIO);
 	cv::resizeWindow("Imagen original", 500, 400);
