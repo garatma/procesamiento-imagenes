@@ -12,12 +12,12 @@ int main(int argc, char ** argv)
 		modificada = imread(argv[2], cv::IMREAD_COLOR);
 	}
 	else {
-		std::cout << "Debe especificar la ruta a una imagen." << std::endl;
+		std::cout << "Debe especificar la ruta a las imágenes." << std::endl;
 		return EXIT_FAILURE;
 	}
 
 	if(original.empty() || modificada.empty()) {
-		std::cout << "No se pudo encontrar la imagen." << std::endl;
+		std::cout << "No se pudo encontrar una imagen." << std::endl;
 		return EXIT_FAILURE;
 	}
 

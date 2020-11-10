@@ -12,16 +12,19 @@ int main(int argc, char ** argv)
 		modificada = imread(argv[2], cv::IMREAD_COLOR);
 	}
 	else {
-		std::cout << "Debe especificar la ruta a una imagen." << std::endl;
+		std::cout << "Debe especificar la ruta a las imágenes." << std::endl;
 		return EXIT_FAILURE;
 	}
 
 	if(original.empty() || modificada.empty()) {
-		std::cout << "No se pudo encontrar la imagen." << std::endl;
+		std::cout << "No se pudo encontrar una imagen." << std::endl;
 		return EXIT_FAILURE;
 	}
 
 	float ancho = modificada.cols, alto = modificada.rows;
+
+	std::cout << ancho << std::endl;
+	std::cout << alto << std::endl;
 
 	// PT
 	float Pa[3][3] = {{0, 0, ancho}, {0, alto, alto}, {1, 1, 1}},
