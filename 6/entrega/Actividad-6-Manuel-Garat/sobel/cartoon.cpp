@@ -34,10 +34,13 @@ int main(int argc, char ** argv)
 	cv::medianBlur(imagen, filtrada, 9);
 
 	// (2) - detectar bordes de la imagen en escala de grises.
-	cv::Mat LoG, gauss, grises;
+	cv::Mat sobel, sobel_x, absobel_x, sobel_y, absobel_y, grises;
 	cv::cvtColor(filtrada, grises, cv::COLOR_BGR2GRAY);
-	cv::GaussianBlur(grises, gauss, cv::Size(3,3), 0);
-	cv::Laplacian(gauss, LoG, CV_8U, 3, 1, 0);
+	cv::Sobel(grises, sobel_x, 0, 1, 0, 1);
+	cv::Sobel(grises, sobel_y, 0, 0, 1, 1);
+	cv::convertScaleAbs(sobel_x, absobel_x);
+	cv::convertScaleAbs(sobel_y, absobel_y);
+	cv::addWeighted(absobel_x, 0.5, absobel_y, 0.5, 0, sobel);
 
 	// (3) - reducir la cantidad de colores en (1).
 	cv::Mat bilateral;
@@ -52,12 +55,12 @@ int main(int argc, char ** argv)
 
 	// (4) - agregar a (3) los bordes obtenidos en (2).
 	cv::Mat resultado = bilateral.clone();
-	uchar * fila_resultado, * fila_LoG;
-	for (int i = 0; i < LoG.rows; ++i) {
+	uchar * fila_resultado, * fila_sobel;
+	for (int i = 0; i < sobel.rows; ++i) {
 		fila_resultado = resultado.ptr<uchar>(i);
-		fila_LoG = LoG.ptr<uchar>(i);
-		for (int j = 0; j < LoG.cols; ++j) {
-			if (fila_LoG[j] > 5) {
+		fila_sobel = sobel.ptr<uchar>(i);
+		for (int j = 0; j < sobel.cols; ++j) {
+			if (fila_sobel[j] > 5) {
 				for (int k = 0; k < resultado.channels(); ++k)
 					fila_resultado[j*resultado.channels()+k] = 0;
 			}
@@ -83,10 +86,10 @@ int main(int argc, char ** argv)
 		cv::moveWindow("Filtrada", 0, 500);
 		imshow("Filtrada", filtrada);
 
-		cv::namedWindow("LoG", cv::WINDOW_FREERATIO);
-		cv::resizeWindow("LoG", 500, 500);
-		cv::moveWindow("LoG", 500, 500);
-		imshow("LoG", LoG);
+		cv::namedWindow("Sobel", cv::WINDOW_FREERATIO);
+		cv::resizeWindow("Sobel", 500, 500);
+		cv::moveWindow("Sobel", 500, 500);
+		imshow("Sobel", sobel);
 
 		cv::namedWindow("Bilateral", cv::WINDOW_FREERATIO);
 		cv::resizeWindow("Bilateral", 500, 500);

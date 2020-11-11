@@ -33,11 +33,9 @@ int main(int argc, char ** argv)
 	cv::Mat filtrada;
 	cv::medianBlur(imagen, filtrada, 9);
 
-	// (2) - detectar bordes de la imagen en escala de grises.
-	cv::Mat LoG, gauss, grises;
-	cv::cvtColor(filtrada, grises, cv::COLOR_BGR2GRAY);
-	cv::GaussianBlur(grises, gauss, cv::Size(3,3), 0);
-	cv::Laplacian(gauss, LoG, CV_8U, 3, 1, 0);
+	// (2) - detectar bordes de la imagen.
+	cv::Mat canny;
+	cv::Canny(filtrada, canny, 10, 70);
 
 	// (3) - reducir la cantidad de colores en (1).
 	cv::Mat bilateral;
@@ -52,12 +50,12 @@ int main(int argc, char ** argv)
 
 	// (4) - agregar a (3) los bordes obtenidos en (2).
 	cv::Mat resultado = bilateral.clone();
-	uchar * fila_resultado, * fila_LoG;
-	for (int i = 0; i < LoG.rows; ++i) {
+	uchar * fila_resultado, * fila_canny;
+	for (int i = 0; i < canny.rows; ++i) {
 		fila_resultado = resultado.ptr<uchar>(i);
-		fila_LoG = LoG.ptr<uchar>(i);
-		for (int j = 0; j < LoG.cols; ++j) {
-			if (fila_LoG[j] > 5) {
+		fila_canny = canny.ptr<uchar>(i);
+		for (int j = 0; j < canny.cols; ++j) {
+			if (fila_canny[j] > 5) {
 				for (int k = 0; k < resultado.channels(); ++k)
 					fila_resultado[j*resultado.channels()+k] = 0;
 			}
@@ -83,10 +81,10 @@ int main(int argc, char ** argv)
 		cv::moveWindow("Filtrada", 0, 500);
 		imshow("Filtrada", filtrada);
 
-		cv::namedWindow("LoG", cv::WINDOW_FREERATIO);
-		cv::resizeWindow("LoG", 500, 500);
-		cv::moveWindow("LoG", 500, 500);
-		imshow("LoG", LoG);
+		cv::namedWindow("Canny", cv::WINDOW_FREERATIO);
+		cv::resizeWindow("Canny", 500, 500);
+		cv::moveWindow("Canny", 500, 500);
+		imshow("Canny", canny);
 
 		cv::namedWindow("Bilateral", cv::WINDOW_FREERATIO);
 		cv::resizeWindow("Bilateral", 500, 500);
