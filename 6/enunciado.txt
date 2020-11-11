@@ -1,0 +1,13 @@
+Actividad 6: Detección de bordes
+El objetivo de esta actividad es mejorar la Actividad 3 mejorando la detección de bordes, dado que en esa actividad se usó directamente el Laplaciano.
+
+    1. Revisar la librería que estén usando para ver qué algoritmos de detección de bordes ofrece. ¿Cuán fácil es usarlas? ¿están implementadas de manera completa? Por ejemplo, recuerden que el LoG (o DoG) necesitan un paso más para detectar bordes.
+
+    2. Modificar la detección de bordes en la Actividad 3 y analizar resultados usando:
+        a. LoG (si encontraron como implementarlo fácilmente)
+        b. Sobel
+        c. Canny (el usando en el paper original)
+
+Subir a Moodle
+    · Código fuente
+    · Documento comparando los resultados.
