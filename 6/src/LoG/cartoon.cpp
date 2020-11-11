@@ -33,11 +33,11 @@ int main(int argc, char ** argv)
 	cv::Mat filtrada;
 	cv::medianBlur(imagen, filtrada, 9);
 
-	// (2) - detectar bordes a la imagen en escala de grises.
-	cv::Mat laplaciano, grises;
-	// cv::cvtColor(filtrada, grises, cv::COLOR_BGR2GRAY);
-	// cv::Laplacian(grises, laplaciano, CV_8U, 1, 1, 1);
-	// cv::Sobel(filtrada, laplaciano, 1, 1, 1);
+	// (2) - detectar bordes de la imagen en escala de grises.
+	cv::Mat laplaciano, gauss, grises;
+	cv::cvtColor(filtrada, grises, cv::COLOR_BGR2GRAY);
+	cv::GaussianBlur(grises, gauss, cv::Size(3,3), 0);
+	cv::Laplacian(gauss, laplaciano, CV_8U, 3, 1, 0);
 
 	// (3) - reducir la cantidad de colores en (1).
 	cv::Mat bilateral;
