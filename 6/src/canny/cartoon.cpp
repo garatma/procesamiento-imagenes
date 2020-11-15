@@ -35,7 +35,7 @@ int main(int argc, char ** argv)
 
 	// (2) - detectar bordes de la imagen.
 	cv::Mat canny;
-	cv::Canny(filtrada, canny, 10, 70);
+	cv::Canny(filtrada, canny, 10, 100);
 
 	// (3) - reducir la cantidad de colores en (1).
 	cv::Mat bilateral;

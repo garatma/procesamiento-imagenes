@@ -36,8 +36,8 @@ int main(int argc, char ** argv)
 	// (2) - detectar bordes de la imagen en escala de grises.
 	cv::Mat sobel, sobel_x, absobel_x, sobel_y, absobel_y, grises;
 	cv::cvtColor(filtrada, grises, cv::COLOR_BGR2GRAY);
-	cv::Sobel(grises, sobel_x, 0, 1, 0, 1);
-	cv::Sobel(grises, sobel_y, 0, 0, 1, 1);
+	cv::Sobel(grises, sobel_x, CV_8UC1, 1, 0, 1);
+	cv::Sobel(grises, sobel_y, CV_8UC1, 0, 1, 1);
 	cv::convertScaleAbs(sobel_x, absobel_x);
 	cv::convertScaleAbs(sobel_y, absobel_y);
 	cv::addWeighted(absobel_x, 0.5, absobel_y, 0.5, 0, sobel);
