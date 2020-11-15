@@ -2,7 +2,7 @@ para instalar opencv:
 	1. instalar dependencias de opencv (https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html) (debian: build-essential, cmake)
 	2. instalar la librería opencv (debian: libopencv-dev)
 
-para compilar los ejercicios, ejecutar en cada una de las carpetas:
+para compilar los ejercicios, ejecutar en cada una de las carpetas donde se cuentra un archivo cartoon.cpp:
 	- cmake . (generar el Makefile)
 	- make (compilar el código fuente)
 	- el binario generado "cartoon.out"
