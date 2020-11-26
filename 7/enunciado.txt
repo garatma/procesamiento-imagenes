@@ -1,0 +1,13 @@
+Actividad 7: Reconocer galletitas ++
+
+El objetivo de esta actividad es, nuevamente, reconocer las galletitas en una imagen y decir de qué color son.
+
+La implementación debe:
+	· Encontrar las galletitas buscando círculos.
+    · Usar las cosas vistas anteriormente (por ejemplo, filtros, reducción de colores, etc.) para mejorar el reconocimiento.
+
+Además, debe incorporar alguna de las siguientes extensiones:
+    · Incluir galletitas rectangulares
+    · Corrección automática de la perspectiva (por ejemplo, sacando foto de la hoja completa y encontrando los bordes o agregando líneas de referencia que permitan obtener la información de perspectiva).
+
+Por último, implementar alguna estrategia para diferenciar galletitas completas de rotas.
