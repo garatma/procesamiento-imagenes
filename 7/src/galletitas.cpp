@@ -337,7 +337,7 @@ int main(int argc, char ** argv)
 	const char * barra_galletita = "Umbral píxeles galletita",
 		* barra_color = "Umbral color galletita",
 		* barra_fondo = "Umbral color fondo",
-		* barra_dp = "dP",
+		* barra_dp = "Cantidad de círculos",
 		* barra_minDist = "Distancia entre círculos",
 		* barra_minRadius = "Radio mínimo",
 		* barra_maxRadius= "Radio máximo",
