@@ -28,12 +28,12 @@
 #define MAX_MAXLINEGAP 201
 
 int umbral_galletita, divisor_umbral = 200, umbral_color = 30, umbral_fondo = 70;
-int dp = 40, minDist = 2, param1 = 100, param2 = 100, minRadius = 2, maxRadius = 4;
+int dp = 39, minDist = 2, param1 = 100, param2 = 100, minRadius = 2, maxRadius = 4;
 int rho = 5, theta = 180, threshold = 50, minLineLength = 50, maxLineGap = 10;
 uchar fondo[3],
-	  color_rectangulo[3] = {0, 255, 0},
-	  color_circulo[3] = {0, 0, 255},
-	  negro[3] = {255, 255, 255};
+	color_rectangulo[3] = {0, 255, 0},
+	color_circulo[3] = {0, 0, 255},
+	negro[3] = {255, 255, 255};
 
 bool opcion_o = false;
 struct galletita {
@@ -48,7 +48,6 @@ struct argumento_callback {
 	cv::Mat grises;
 	cv::Mat canny;
 	cv::Mat gaussian;
-	// std::string ventana_resultados = "Resultados";
 };
 
 
@@ -73,7 +72,6 @@ bool es(uchar color1[3], uchar color2[3], int umbral) {
 	return es;
 }
 
-// TODO: retocar esto. ver qué retornar
 int es_galletita(cv::Mat * imagen, cv::Mat * mapa,
 	int fila, int columna, int pos_pixel_anterior,
 	double suma[3],
@@ -153,10 +151,8 @@ void encontrar_galletitas(int, void * argumento)
 	cv::Mat mapa = cv::Mat::zeros(imagen.rows, imagen.cols, CV_8UC3);
 
 	// detectar líneas (rectángulos)
-	// cv::findContours
 	std::vector <cv::Vec4i> lineas;
 	cv::HoughLinesP(p_argumento->canny, lineas, (rho+1)/10.0, CV_PI/50, threshold, minLineLength, maxLineGap);
-	// cv::HoughLinesP(canny, lineas, (rho+1)/10.0, CV_PI/(theta+1), threshold, minLineLength, maxLineGap);
 
 	// detectar círculos
 	std::vector <cv::Vec3f> circulos;
@@ -189,11 +185,9 @@ void encontrar_galletitas(int, void * argumento)
 	uchar * pmapa, * p, color[3], promedio[3];
 	double suma[3], pixeles_galletita;
 	int galletitas_encontradas = 0, indice;
-	int rectangulos_encontrados = 0, circulos_encontrados = 0;
 	bool encontre_rectangulo;
 
-	// recorrer imagen buscando píxeles de
-	// hay de estos de manera contigua para determinar si es una galletita o no
+	// recorrer imagen buscando círculos y rectángulos dibujados
 	for (int i = 1; i < imagen.rows; ++i) {
 		p = imagen.ptr<uchar>(i);
 		pmapa = mapa.ptr<uchar>(i);
@@ -210,15 +204,10 @@ void encontrar_galletitas(int, void * argumento)
 				encontre_rectangulo = false;
 				pixeles_galletita = 0;
 
-				if (es(color, color_circulo, 0)) { // si el píxel indica un círculo
+				if (es(color, color_circulo, 0))  // si el píxel indica un círculo
 					pixeles_galletita = es_galletita(&imagen, &mapa, i, j, CENTRO, suma, color_circulo);
-					circulos_encontrados++;
-					// std::cout << "encontré un círculo en " << j << "," << i << std::endl;
-				}
 				else if (es(color, color_rectangulo, 0)) { // si el píxel indica un rectángulo
 					pixeles_galletita = es_galletita(&imagen, &mapa, i, j, CENTRO, suma, color_rectangulo);
-					// std::cout << "encontré un rectángulo en " << j/3 << "," << i << std::endl;
-					rectangulos_encontrados++;
 					encontre_rectangulo = true;
 				}
 
@@ -243,9 +232,6 @@ void encontrar_galletitas(int, void * argumento)
 			}
 		}
 	}
-
-	std::cout << "encontre " << circulos_encontrados << " círculos" << std::endl;
-	std::cout << "encontre " << rectangulos_encontrados << " rectángulos" << std::endl;
 
 	std::string resultados = "Resultados: ";
 	cv::Mat imagen_resultados = cv::Mat::zeros(400, 400, CV_8U);
@@ -281,10 +267,10 @@ void encontrar_galletitas(int, void * argumento)
 		cv::moveWindow("Procesamiento pixeles", 451, 0);
 		imshow("Procesamiento pixeles", mapa);
 
-		namedWindow("Canal H", cv::WINDOW_FREERATIO);
-		cv::resizeWindow("Canal H", 450, 450);
-		cv::moveWindow("Canal H", 901, 0);
-		imshow("Canal H", imagen);
+		namedWindow("Circulares y rectangulares", cv::WINDOW_FREERATIO);
+		cv::resizeWindow("Circulares y rectangulares", 450, 450);
+		cv::moveWindow("Circulares y rectangulares", 901, 0);
+		imshow("Circulares y rectangulares", imagen);
 	}
 }
 
