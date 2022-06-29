@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.19)
 project(galletitas)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
